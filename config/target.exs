@@ -6,6 +6,27 @@ import Config
 
 config :logger, backends: [RingLogger]
 
+# Inky
+config :post_updates, :viewport, %{
+	name: :main_viewport,
+	default_scene: {PostUpdates.Scene.Main, nil},
+	size: {400, 300}, # Note: Match these to your inky display
+	opts: [scale: 1.0],
+	drivers: [
+		%{
+		module: ScenicDriverInky,
+		opts: [
+			# Note: Match these to your Inky display
+			type: :what,
+			accent: :red,
+			opts: %{
+				border: :black
+			}
+		]
+		}
+	]
+}
+
 # Use shoehorn to start the main application. See the shoehorn
 # library documentation for more control in ordering how OTP
 # applications are started and handling failures.
@@ -93,8 +114,14 @@ config :mdns_lite,
     }
   ]
 
+config :extwitter, :oauth,
+  consumer_key: "",
+  consumer_secret: "",
+  access_token: "",
+  access_token_secret: ""
+
 # Import target specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 # Uncomment to use target specific configurations
 
-# import_config "#{Mix.target()}.exs"
+import_config "secrets.exs"

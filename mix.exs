@@ -38,7 +38,7 @@ defmodule PostUpdates.MixProject do
       # Dependencies for all targets except :host
       {:nerves_runtime, "~> 0.13.0", targets: @all_targets},
       {:nerves_pack, "~> 0.7.0", targets: @all_targets},
-      {:vintage_net_wizard, "~> 0.4"},
+      {:vintage_net_wizard, "~> 0.4", targets: @all_targets},
       {:req, "~> 0.3.0"},
       # Dependencies for specific targets
       # NOTE: It's generally low risk and recommended to follow minor version
@@ -54,7 +54,17 @@ defmodule PostUpdates.MixProject do
       {:nerves_system_bbb, "~> 2.14", runtime: false, targets: :bbb},
       {:nerves_system_osd32mp1, "~> 0.10", runtime: false, targets: :osd32mp1},
       {:nerves_system_x86_64, "~> 1.19", runtime: false, targets: :x86_64},
-      {:nerves_system_grisp2, "~> 0.3", runtime: false, targets: :grisp2}
+      {:nerves_system_grisp2, "~> 0.3", runtime: false, targets: :grisp2},
+      # App deps
+      {:oauther, "~> 1.1"},
+      {:jason, "~> 1.1"},
+      {:extwitter, "~> 0.12"},
+      # Inky
+      {:inky, "~> 1.0"},
+      {:inky_host_dev, "~> 1.0", targets: :host, only: :dev},
+      {:scenic, "~> 0.10.0"},
+      {:scenic_driver_inky, "~> 1.0.0", targets: @all_targets},
+      {:scenic_driver_glfw, "~> 0.10", targets: :host}
     ]
   end
 

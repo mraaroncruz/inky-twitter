@@ -11,32 +11,31 @@ defmodule PostUpdates.Application do
     # for other strategies and supported options
     opts = [strategy: :one_for_one, name: PostUpdates.Supervisor]
 
-    children =
-      [
-        PostUpdates.WifiChecker
-        # Children for all targets
-        # Starts a worker by calling: PostUpdates.Worker.start_link(arg)
-        # {PostUpdates.Worker, arg},
-      ] ++ children(target())
+    children = children(:shared) ++ children(target())
 
     Supervisor.start_link(children, opts)
   end
 
   # List all child processes to be supervised
   def children(:host) do
+    []
+  end
+
+  def children(:shared) do
     [
-      # Children that only run on the host
-      # Starts a worker by calling: PostUpdates.Worker.start_link(arg)
-      # {PostUpdates.Worker, arg},
+      PostUpdates.Display,
+      {Scenic, viewports: [viewport_config()]}
     ]
   end
 
-  def children(_target) do
+  def children(_) do
     [
-      # Children for all targets except host
-      # Starts a worker by calling: PostUpdates.Worker.start_link(arg)
-      # {PostUpdates.Worker, arg},
+      PostUpdates.WifiChecker
     ]
+  end
+
+  def viewport_config do
+    Application.get_env(:post_updates, :viewport)
   end
 
   def target() do
